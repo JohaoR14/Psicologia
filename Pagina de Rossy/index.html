@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ValorVisor</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ValorVisor - Encuesta</title>
   <style>
     :root {
       --primary: #6C63FF;
       --secondary: #FFD369;
-      --bg: #F5F7FA;
+      --bg: #F4F6FA;
       --text: #333;
       --white: #fff;
-      --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
     }
     body {
       background: var(--bg);
@@ -27,71 +27,49 @@
     header {
       background: var(--primary);
       color: var(--white);
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+      padding: 1.2rem;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
     }
-    header h1 {
-      font-size: 1.8rem;
-    }
-    nav {
-      display: flex;
-      gap: 0.5rem;
-    }
-    nav button {
-      background: var(--secondary);
-      color: var(--text);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    nav button:hover {
-      background: #ffc947;
-    }
-    main {
-      padding: 2rem 1rem;
-    }
-    .card {
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
       background: var(--white);
+      padding: 2rem;
       border-radius: 1rem;
       box-shadow: var(--shadow);
-      padding: 2rem;
-      max-width: 900px;
-      margin: 2rem auto;
-      display: none;
-      animation: fadeIn 0.4s ease-in-out;
     }
-    .active {
-      display: block;
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
     label {
-      display: block;
-      margin-bottom: 0.25rem;
       font-weight: 600;
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
     }
-    input[type=text], select, textarea {
+    textarea, select {
       width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid #ccc;
+      padding: 0.75rem;
       border-radius: 0.5rem;
-      margin-bottom: 1rem;
+      border: 1px solid #ccc;
       font-size: 1rem;
     }
-    button.submit {
+    button {
+      margin-top: 2rem;
+      width: 100%;
       background: var(--primary);
       color: var(--white);
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.75rem;
+      padding: 0.75rem;
       font-size: 1rem;
+      border: none;
+      border-radius: 0.75rem;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s ease;
     }
-    button.submit:hover {
+    button:hover {
       background: #554ee3;
     }
     #shieldDisplay {
@@ -99,79 +77,29 @@
       text-align: center;
     }
     #shieldDisplay img {
-      max-width: 250px;
+      max-width: 200px;
       margin-bottom: 1rem;
     }
     #shieldDisplay p {
       font-size: 1.1rem;
       color: #555;
     }
-    #chatWindow {
-      height: 400px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      background: #fafbfc;
-      display: flex;
-      flex-direction: column;
-    }
-    .msg {
-      margin-bottom: 0.5rem;
-      max-width: 80%;
-      word-wrap: break-word;
-      padding: 0.5rem 1rem;
-      border-radius: 1rem;
-      font-size: 0.95rem;
-    }
-    .user {
-      align-self: flex-end;
-      background: var(--primary);
-      color: #fff;
-      border-radius: 1rem 1rem 0 1rem;
-    }
-    .bot {
-      align-self: flex-start;
-      background: #e4e6f9;
-      border-radius: 1rem 1rem 1rem 0;
-    }
-    #chatControls {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    #chatControls input {
-      flex: 1;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media(max-width: 768px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-      }
-      nav {
-        margin-top: 1rem;
+    @media (max-width: 600px) {
+      .container {
+        margin: 1rem;
+        padding: 1rem;
       }
     }
   </style>
 </head>
 <body>
-<header>
-  <h1>ValorVisor</h1>
-  <nav>
-    <button onclick="showSection('encuesta')">Encuesta</button>
-    <button onclick="showSection('chat')">Chat</button>
-  </nav>
-</header>
-<main>
-  <section id="encuesta" class="card active">
+  <header>ValorVisor - Encuesta</header>
+  <div class="container">
     <h2>Encuesta de Fortaleza Personal</h2>
     <form id="valorForm">
       <label for="q1">¿Qué te hace valiente aunque tengas miedo?</label>
       <textarea id="q1" required></textarea>
+
       <label for="q2">¿Qué cualidad te define mejor en momentos de desafío?</label>
       <select id="q2" required>
         <option value="" disabled selected>Selecciona una</option>
@@ -180,91 +108,52 @@
         <option value="integridad">Integridad</option>
         <option value="proactividad">Proactividad</option>
       </select>
+
       <label for="q3">¿Qué te ayuda cuando sientes miedo?</label>
       <textarea id="q3" required></textarea>
+
       <label for="q4">Escribe una frase que te dé fuerza antes de hablar</label>
       <textarea id="q4" required></textarea>
-      <button type="button" class="submit" id="generateBtn">Generar escudo de Valor</button>
+
+      <button type="button" id="generateBtn">Generar escudo de Valor</button>
     </form>
+
     <div id="shieldDisplay"></div>
-  </section>
-  <section id="chat" class="card">
-    <h2>Chat de Apoyo Emocional</h2>
-    <div id="chatWindow"></div>
-    <div id="chatControls">
-      <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-      <button class="submit" id="sendBtn">Enviar</button>
-    </div>
-  </section>
-</main>
-<script>
-  function showSection(id) {
-    document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
+  </div>
 
-  const shields = {
-    empatia: {
-      img: 'Images/empatia.png',
-      text: 'Este escudo representa la Empatía: la conexión con los demás que transforma el miedo en solidaridad.'
-    },
-    resiliencia: {
-      img: 'Images/resiliencia.png',
-      text: 'Este escudo simboliza la Resiliencia: la capacidad de levantarte cada vez más fuerte ante la adversidad.'
-    },
-    integridad: {
-      img: 'Images/integridad.png',
-      text: 'Este escudo encarna la Integridad: actuar conforme a tus valores incluso cuando nadie está mirando.'
-    },
-    proactividad: {
-      img: 'Images/proactividad.png',
-      text: 'Este escudo proyecta la Proactividad: tomar la iniciativa y convertir el miedo en acción constructiva.'
-    }
-  };
+  <script>
+    const shields = {
+      empatia: {
+        img: 'Images/empatia.png',
+        text: 'Este escudo representa la Empatía: la conexión con los demás que transforma el miedo en solidaridad.'
+      },
+      resiliencia: {
+        img: 'Images/resiliencia.png',
+        text: 'Este escudo simboliza la Resiliencia: la capacidad de levantarte cada vez más fuerte ante la adversidad.'
+      },
+      integridad: {
+        img: 'Images/integridad.png',
+        text: 'Este escudo encarna la Integridad: actuar conforme a tus valores incluso cuando nadie está mirando.'
+      },
+      proactividad: {
+        img: 'Images/proactividad.png',
+        text: 'Este escudo proyecta la Proactividad: tomar la iniciativa y convertir el miedo en acción constructiva.'
+      }
+    };
 
-  document.getElementById('generateBtn').addEventListener('click', () => {
-    const quality = document.getElementById('q2').value;
-    if (!quality) {
-      alert('Selecciona la cualidad que mejor te define.');
-      return;
-    }
-    const data = shields[quality];
-    const div = document.getElementById('shieldDisplay');
-    div.innerHTML = `<img src="${data.img}" alt="Escudo ${quality}"><p>${data.text}</p>`;
-    div.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  const sessionId = localStorage.getItem('valorvisor-session') || crypto.randomUUID();
-  localStorage.setItem('valorvisor-session', sessionId);
-  const chatWindow = document.getElementById('chatWindow');
-  const addMessage = (text, cls) => {
-    const bubble = document.createElement('div');
-    bubble.className = 'msg ' + cls;
-    bubble.textContent = text;
-    chatWindow.appendChild(bubble);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-  };
-  document.getElementById('sendBtn').addEventListener('click', async () => {
-    const input = document.getElementById('chatInput');
-    const msg = input.value.trim();
-    if (!msg) return;
-    addMessage(msg, 'user');
-    input.value = '';
-    addMessage('...', 'bot');
-    try {
-      const res = await fetch('https://johaoramirez.app.n8n.cloud/webhook-test/4edf8d8d-d549-4218-bf5b-ec3bdba1ef9e', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, message: msg })
-      });
-      const { reply } = await res.json();
-      chatWindow.lastChild.remove();
-      addMessage(reply, 'bot');
-    } catch (e) {
-      chatWindow.lastChild.remove();
-      addMessage('Lo siento, ocurrió un error. Intenta de nuevo.', 'bot');
-    }
-  });
-</script>
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const select = document.getElementById('q2');
+      const selected = select.value;
+      if (!selected) {
+        alert('Selecciona una cualidad para generar tu escudo.');
+        return;
+      }
+      const data = shields[selected];
+      const display = document.getElementById('shieldDisplay');
+      display.innerHTML = `<img src="${data.img}" alt="Escudo ${selected}" />
+                           <p>${data.text}</p>`;
+      display.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
