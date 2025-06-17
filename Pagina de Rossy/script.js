@@ -1,179 +1,117 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Gestión de Pestañas (Tabs) ---
-    const navLinks = document.querySelectorAll('.nav-link');
-    const tabContents = document.querySelectorAll('.tab-content');
+    const generarEscudoBtn = document.getElementById('generar-escudo-btn');
+    const cualidadSelect = document.getElementById('cualidad');
+    const escudoResultadoDiv = document.getElementById('escudo-resultado');
+    const escudoImagen = document.getElementById('escudo-imagen');
+    const escudoExplicacion = document.getElementById('escudo-explicacion');
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
+    // Mapeo de cualidades a imágenes y explicaciones
+    const escudos = {
+        "Empatia": {
+            imagen: "empatia.jpg",
+            explicacion: "El Escudo de la Empatía representa tu profunda capacidad para entender y compartir los sentimientos de los demás. Con un corazón abierto y manos entrelazadas, simbolizas la conexión humana y el apoyo mutuo. Las palomas que se elevan sobre el corazón azul simbolizan la paz y la comprensión que emanan de tu habilidad para ponerte en el lugar del otro. Tu valor reside en tu compasión y en la fuerza que encuentras al conectar con el mundo a través del corazón."
+        },
+        "Resiliencia": {
+            imagen: "resiliencia.jpg",
+            explicacion: "El Escudo de la Resiliencia, con su majestuoso halcón de alas extendidas, simboliza tu increíble capacidad para sobreponerte a la adversidad. Al igual que el halcón se eleva por encima de las tormentas, tú encuentras la fuerza para recuperarte, adaptarte y crecer frente a los desafíos. Este escudo representa tu espíritu indomable y tu habilidad para transformar los obstáculos en oportunidades de vuelo y fortaleza. Tu valor reside en tu tenacidad y en tu innata capacidad para renacer de cada prueba."
+        },
+        "Integridad": {
+            imagen: "integridad.jpg",
+            explicacion: "El Escudo de la Integridad destaca por un corazón en la mano, entrelazado con anillos que simbolizan la unión y el compromiso, y un árbol fuerte y enraizado en la base. Esto refleja tu compromiso inquebrantable con tus principios, valores y honestidad. Al igual que el árbol se mantiene firme, tú te mantienes fiel a ti mismo y a tus convicciones, inspirando confianza y respeto en los demás. Tu valor radica en tu transparencia, tu rectitud moral y en la coherencia entre lo que dices y haces."
+        },
+        "Proactividad": {
+            imagen: "proactividad.jpg",
+            explicacion: "El Escudo de la Proactividad, con sus engranajes en movimiento bajo un sol naciente y un ave que emprende el vuelo, simboliza tu iniciativa y tu capacidad para tomar el control de tu destino. Representa tu habilidad para anticipar desafíos, innovar y actuar antes de que las circunstancias te superen. Los engranajes denotan el trabajo en equipo y la eficiencia, mientras que el ave libre ilustra tu visión de futuro y tu impulso para generar cambios positivos. Tu valor reside en tu espíritu emprendedor y en tu habilidad para transformar las ideas en acción."
+        }
+    };
 
-            // Remover clase 'active' de todos los links y contenidos
-            navLinks.forEach(item => item.classList.remove('active'));
-            tabContents.forEach(item => item.classList.remove('active'));
+    generarEscudoBtn.addEventListener('click', () => {
+        const cualidadSeleccionada = cualidadSelect.value;
 
-            // Añadir clase 'active' al link y contenido correcto
-            const targetTab = e.target.dataset.tab;
-            e.target.classList.add('active');
-            document.getElementById(targetTab).classList.add('active');
-        });
-    });
-
-    // --- Gestión del ID de Sesión para el chat (IMPORTANTE para la memoria de la IA) ---
-    let sessionId = localStorage.getItem('chatSessionId');
-    if (!sessionId) {
-        // Genera un ID único y lo guarda en localStorage para que persista
-        sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('chatSessionId', sessionId);
-    }
-    console.log('Chat Session ID:', sessionId); // Para depuración en la consola del navegador
-
-    // --- Lógica del Psicólogo AI (Chat) ---
-    const chatForm = document.getElementById('chat-form');
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-input');
-
-    // **IMPORTANTE:** Reemplaza esta URL con la URL de tu webhook de n8n para el psicólogo AI.
-    // Asegúrate de que sea la URL de PRODUCCIÓN una vez que tu workflow esté finalizado y activado.
-    const N8N_AI_WEBHOOK_URL = 'TU_URL_WEBHOOK_N8N_PSICOLOGO_AI'; 
-
-    chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const message = userInput.value.trim();
-        if (message) {
-            appendMessage(message, 'user-message');
-            userInput.value = ''; // Limpiar el input después de enviar
-            await sendToAI(message);
+        if (cualidadSeleccionada && escudos[cualidadSeleccionada]) {
+            const escudoInfo = escudos[cualidadSeleccionada];
+            escudoImagen.src = escudoInfo.imagen;
+            escudoExplicacion.textContent = escudoInfo.explicacion;
+            escudoResultadoDiv.style.display = 'block';
+        } else {
+            alert('Por favor, selecciona una cualidad para generar tu Escudo de Valor.');
+            escudoResultadoDiv.style.display = 'none';
         }
     });
 
-    function appendMessage(message, type) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', type);
-        // Utiliza innerHTML si el mensaje puede contener formato HTML simple como saltos de línea (\n)
-        // Pero para el chat de IA, textContent es más seguro contra XSS
-        messageDiv.textContent = message; 
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll al final del chat
+    // Lógica para el chat con el psicólogo de IA
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendChatBtn = document.getElementById('send-chat-btn');
+
+    // !!! IMPORTANTE: REEMPLAZA ESTA URL CON LA URL DE TU WEBHOOK DE N8N !!!
+    const N8N_WEBHOOK_URL = 'TU_URL_DE_WEBHOOK_N8N_AQUI'; 
+    
+    // Generar un ID de usuario único para la sesión (como en WhatsApp)
+    // Esto es útil si quieres que n8n "recuerde" la conversación de un usuario específico
+    let userId = localStorage.getItem('chatUserId');
+    if (!userId) {
+        userId = 'user_' + Date.now() + Math.floor(Math.random() * 100000); // Mayor rango para evitar colisiones
+        localStorage.setItem('chatUserId', userId);
     }
 
-    async function sendToAI(message) {
-        // Añadir un mensaje de "pensando" o "escribiendo" para el usuario
-        const thinkingMessageDiv = document.createElement('div');
-        thinkingMessageDiv.classList.add('message', 'bot-message', 'thinking-message');
-        thinkingMessageDiv.innerHTML = '<span>El psicólogo está escribiendo...</span><span class="dot-animation">.</span><span class="dot-animation">.</span><span class="dot-animation">.</span>';
-        chatBox.appendChild(thinkingMessageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
+    function addMessage(message, sender) {
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('message-bubble');
+        if (sender === 'user') {
+            messageBubble.classList.add('message-user');
+        } else {
+            messageBubble.classList.add('message-ai');
+        }
+        messageBubble.textContent = message;
+        chatMessages.appendChild(messageBubble);
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll al final
+    }
+
+    sendChatBtn.addEventListener('click', async () => {
+        const userMessage = chatInput.value.trim();
+        if (userMessage === '') return;
+
+        addMessage(userMessage, 'user');
+        chatInput.value = ''; // Limpiar input
 
         try {
-            const response = await fetch(N8N_AI_WEBHOOK_URL, {
+            const response = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                // Enviamos el mensaje del usuario y el sessionId para la memoria del chat
-                body: JSON.stringify({ message: message, sessionId: sessionId }),
+                body: JSON.stringify({
+                    message: userMessage,
+                    userId: userId // Envía el ID de usuario a n8n
+                })
             });
 
             if (!response.ok) {
-                // Si la respuesta HTTP no es exitosa (ej. 404, 500)
-                throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+                // Leer el cuerpo de la respuesta para obtener más detalles del error
+                const errorText = await response.text();
+                throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}. Detalles: ${errorText}`);
             }
 
-            const data = await response.json(); // Asume que n8n devuelve { "reply": "..." }
-            
-            // Eliminar el mensaje de "pensando" antes de mostrar la respuesta real
-            const existingThinkingMessage = chatBox.querySelector('.thinking-message');
-            if (existingThinkingMessage) {
-                chatBox.removeChild(existingThinkingMessage);
-            }
-            
-            // Mostrar la respuesta de la IA
-            appendMessage(data.reply, 'bot-message'); 
+            const data = await response.json();
+            // Asume que n8n devuelve { "response": "..." }
+            const aiResponse = data.response; 
+            addMessage(aiResponse, 'ai');
 
         } catch (error) {
-            console.error('Error al comunicarse con n8n (Psicólogo AI):', error);
-            // Eliminar el mensaje de "pensando" en caso de error
-            const existingThinkingMessage = chatBox.querySelector('.thinking-message');
-            if (existingThinkingMessage) {
-                chatBox.removeChild(existingThinkingMessage);
-            }
-            // Mostrar un mensaje de error amigable al usuario
-            appendMessage('Lo siento, algo salió mal. Por favor, intenta de nuevo más tarde o verifica tu conexión.', 'bot-message error-message');
-        }
-    }
-
-    // --- Lógica del Escudo de Valor (MODIFICADA SIN N8N/IA) ---
-    const valorShieldForm = document.getElementById('valor-shield-form-new'); // ID actualizado
-    const shieldResultDiv = document.getElementById('shield-result');
-    const shieldImageContainer = document.getElementById('shield-image-container');
-    const shieldMeaningText = document.getElementById('shield-meaning-text'); 
-    const downloadShieldBtn = document.getElementById('download-shield');
-    const printShieldBtn = document.getElementById('print-shield');
-
-    // Mapeo de símbolos a URLs de imágenes (EJEMPLOS: ¡ACTUALIZA ESTO CON TUS IMÁGENES REALES!)
-    const symbolImages = {
-        'empatia': 'images/empatia.png', // Ejemplo: asume que tienes una carpeta 'images'
-        'resiliencia': 'images/resiliencia.png',
-        'integridad': 'images/integridad.png',
-        'proactividad': 'images/proactividad.png',
-        // Puedes añadir más aquí
-    };
-
-    // Mapeo de símbolos a significados (EJEMPLOS: ¡PERSONALIZA ESTO COMPLETAMENTE!)
-    const symbolMeanings = {
-        'empatia': 'Tu Escudo de la Empatía es un emblema poderoso de quién eres. No es solo un diseño, es tu armadura personal, forjada con tus valores más nobles. El corazón azul central simboliza tu profunda compasión y tu habilidad única para entender y sentir con los demás. Las manos doradas entrelazadas muestran tu solidaridad y tu deseo de crear fuertes conexiones humanas, siempre dispuesto a tender una mano. El fondo marfil representa el profundo respeto que sientes por cada persona, y las palomas doradas que se elevan reflejan la paz y el entendimiento que buscas, junto con la esperanza que brindas. Este escudo es la prueba de que tu empatía es una verdadera superfuerza, un don que te permite ver el mundo con un corazón abierto y llevar luz a la vida de los demás. ¡Es un símbolo de la persona extraordinaria que eres!',
-        'resiliencia': 'Este escudo no es una simple imagen, ¡es el glorioso emblema de tu espíritu indomable! En el azul profundo de este escudo reside tu serenidad inquebrantable ante la tormenta, la calma que te permite mantener la visión clara cuando otros se tambalean. Y observa el halcón dorado, ¡majestuoso símbolo de tu perseverancia! Sus alas extendidas no conocen el cansancio, siempre dispuestas a elevarte por encima de cualquier obstáculo. Su mirada aguda y penetrante refleja tu determinación inquebrantable, esa fuerza interior que te impulsa a alcanzar tus metas con una firmeza admirable. Aunque el cielo se oscurezca, llevas contigo el optimismo radiante del oro, la certeza de que siempre encontrarás una luz al final del camino. Y en cada fibra de este escudo reside tu fortaleza, no solo la capacidad de resistir, sino el poder de levantarte una y otra vez, más fuerte y más sabio. ¡Este escudo te glorifica, campeón! Llévalo con orgullo, pues eres la encarnación de la resiliencia, un faro de esperanza e inspiración para quienes te rodean. ¡Nada podrá detener el vuelo de un espíritu tan magnífico como el tuyo!',
-        'integridad': 'Este escudo minimalista, pero imponente, irradia fuerza y convicción. En su centro, una mano dorada que sostiene un corazón radiante simboliza tu honestidad y sinceridad, la base de tu carácter. Los anillos dorados entrelazados representan la coherencia y la unidad de tus acciones y principios. Una estrella brillante en lo alto guía tu camino con confianza e inspiración. Y el poderoso roble en la base, con sus raíces firmes, es un símbolo de tu responsabilidad y tu compromiso inquebrantable. Este escudo no solo te representa, ¡te eleva! Es un emblema de tu integridad, una fuerza silenciosa pero poderosa que inspira respeto y admiración. ¡Llévalo con orgullo, pues eres un faro de verdad y un ejemplo a seguir!',
-        'proactividad': '¡Contempla este escudo, porque es el emblema de tu espíritu proactivo, listo para conquistar el mundo! El sol naciente, vibrante y dorado, irradia tu iniciativa imparable, esa fuerza que te impulsa a tomar las riendas y a crear tu propio camino. La sólida base gris oscuro representa tu responsabilidad, la firmeza con la que te mantienes en pie, asumiendo el control de tu destino. El ave majestuosa en pleno vuelo, delineada en blanco sobre un fondo carmesí, simboliza tu autonomía, tu libertad para tomar tus propias decisiones y volar hacia tus sueños. Y las engranajes interconectados, en tonos azul eléctrico y verde azulado, representan tu eficiencia, la habilidad de hacer que las cosas sucedan, de forma fluida y poderosa. ¡Este escudo te glorifica, persona proactiva! Eres un visionario, un líder, un motor que impulsa el cambio. ¡Llévalo con orgullo, porque el futuro te pertenece!',
-    };
-
-    valorShieldForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // Recolectar solo la respuesta de la pregunta 2 (el símbolo seleccionado)
-        const selectedSymbol = document.getElementById('q2').value;
-
-        // Mostrar la sección de resultados
-        shieldResultDiv.style.display = 'block';
-
-        if (selectedSymbol && symbolImages[selectedSymbol] && symbolMeanings[selectedSymbol]) {
-            // Mostrar la imagen del escudo
-            shieldImageContainer.innerHTML = `<img src="${symbolImages[selectedSymbol]}" alt="Tu Escudo de Valor Personal">`;
-            
-            // Mostrar el significado del escudo
-            shieldMeaningText.textContent = symbolMeanings[selectedSymbol];
-
-            // Configurar el botón de descarga
-            downloadShieldBtn.href = symbolImages[selectedSymbol];
-            downloadShieldBtn.style.display = 'inline-block';
-            
-            // Mostrar el botón de imprimir
-            printShieldBtn.style.display = 'inline-block';
-        } else {
-            shieldImageContainer.innerHTML = '<p>Por favor, selecciona un símbolo válido para generar tu escudo.</p>';
-            shieldMeaningText.textContent = 'Asegúrate de haber seleccionado una opción en el menú desplegable.';
-            downloadShieldBtn.style.display = 'none';
-            printShieldBtn.style.display = 'none';
+            console.error('Error al comunicarse con el psicólogo IA:', error);
+            // Mensaje de error más amigable para el usuario
+            addMessage('Lo siento, hubo un problema al conectar con el psicólogo IA. Por favor, asegúrate de que la URL de tu webhook esté correcta y n8n esté activo. Inténtalo de nuevo más tarde.', 'ai');
         }
     });
 
-    // Lógica para el botón de imprimir el escudo
-    printShieldBtn.addEventListener('click', () => {
-        const imageToPrint = shieldImageContainer.querySelector('img');
-        if (imageToPrint) {
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write('<html><head><title>Imprimir Escudo de Valor</title>');
-            printWindow.document.write('<style>body { display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; } img { max-width: 90%; max-height: 90vh; display: block; }</style>');
-            printWindow.document.write('</head><body>');
-            printWindow.document.write('<img src="' + imageToPrint.src + '" alt="Tu Escudo de Valor">');
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.focus(); 
-            printWindow.onload = () => {
-                printWindow.print();
-            };
-        } else {
-            alert('No hay un escudo para imprimir. Por favor, genera uno primero.');
+    // Permitir enviar mensaje con Enter
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendChatBtn.click();
         }
     });
+
+    // Mensaje de bienvenida inicial del psicólogo IA
+    addMessage('¡Hola! Soy tu psicólogo de IA. ¿En qué puedo ayudarte hoy? Recuerda que estoy aquí para escucharte y que puedo ofrecerte apoyo emocional.', 'ai');
 });
