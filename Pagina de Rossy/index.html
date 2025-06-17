@@ -1,84 +1,270 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escudo Interior: Fortalece Tu Voz</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ValorVisor</title>
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --secondary: #FFD369;
+      --bg: #F5F7FA;
+      --text: #333;
+      --white: #fff;
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      background: var(--primary);
+      color: var(--white);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      font-size: 1.8rem;
+    }
+    nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+    nav button {
+      background: var(--secondary);
+      color: var(--text);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    nav button:hover {
+      background: #ffc947;
+    }
+    main {
+      padding: 2rem 1rem;
+    }
+    .card {
+      background: var(--white);
+      border-radius: 1rem;
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      max-width: 900px;
+      margin: 2rem auto;
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    .active {
+      display: block;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+    input[type=text], select, textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    button.submit {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button.submit:hover {
+      background: #554ee3;
+    }
+    #shieldDisplay {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    #shieldDisplay img {
+      max-width: 250px;
+      margin-bottom: 1rem;
+    }
+    #shieldDisplay p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    #chatWindow {
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      background: #fafbfc;
+      display: flex;
+      flex-direction: column;
+    }
+    .msg {
+      margin-bottom: 0.5rem;
+      max-width: 80%;
+      word-wrap: break-word;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+    }
+    .user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 1rem 1rem 0 1rem;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #e4e6f9;
+      border-radius: 1rem 1rem 1rem 0;
+    }
+    #chatControls {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    #chatControls input {
+      flex: 1;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media(max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      nav {
+        margin-top: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Escudo Interior: Fortalece Tu Voz</h1>
-            <p>¡Bienvenido a Escudo Interior! Esta plataforma interactiva te invita a explorar la valentía y descubrir la fuerza que reside en ti. Participa en nuestra encuesta para revelar tu escudo de valor personalizado y conéctate con nuestro psicólogo de IA para recibir apoyo siempre que lo necesites.</p>
-        </div>
-    </header>
+<header>
+  <h1>ValorVisor</h1>
+  <nav>
+    <button onclick="showSection('encuesta')">Encuesta</button>
+    <button onclick="showSection('chat')">Chat</button>
+  </nav>
+</header>
+<main>
+  <section id="encuesta" class="card active">
+    <h2>Encuesta de Fortaleza Personal</h2>
+    <form id="valorForm">
+      <label for="q1">¿Qué te hace valiente aunque tengas miedo?</label>
+      <textarea id="q1" required></textarea>
+      <label for="q2">¿Qué cualidad te define mejor en momentos de desafío?</label>
+      <select id="q2" required>
+        <option value="" disabled selected>Selecciona una</option>
+        <option value="empatia">Empatía</option>
+        <option value="resiliencia">Resiliencia</option>
+        <option value="integridad">Integridad</option>
+        <option value="proactividad">Proactividad</option>
+      </select>
+      <label for="q3">¿Qué te ayuda cuando sientes miedo?</label>
+      <textarea id="q3" required></textarea>
+      <label for="q4">Escribe una frase que te dé fuerza antes de hablar</label>
+      <textarea id="q4" required></textarea>
+      <button type="button" class="submit" id="generateBtn">Generar escudo de Valor</button>
+    </form>
+    <div id="shieldDisplay"></div>
+  </section>
+  <section id="chat" class="card">
+    <h2>Chat de Apoyo Emocional</h2>
+    <div id="chatWindow"></div>
+    <div id="chatControls">
+      <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+      <button class="submit" id="sendBtn">Enviar</button>
+    </div>
+  </section>
+</main>
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
 
-    <main>
-        <section id="encuesta-section" class="container">
-            <h2>Descubre Tu Escudo de Valor</h2>
-            <form id="valor-form">
-                <div class="form-group">
-                    <label for="pregunta1">¿Qué te hace valiente aunque tengas miedo?</label>
-                    <textarea id="pregunta1" name="pregunta1" rows="3" required></textarea>
-                </div>
+  const shields = {
+    empatia: {
+      img: 'Images/empatia.png',
+      text: 'Este escudo representa la Empatía: la conexión con los demás que transforma el miedo en solidaridad.'
+    },
+    resiliencia: {
+      img: 'Images/resiliencia.png',
+      text: 'Este escudo simboliza la Resiliencia: la capacidad de levantarte cada vez más fuerte ante la adversidad.'
+    },
+    integridad: {
+      img: 'Images/integridad.png',
+      text: 'Este escudo encarna la Integridad: actuar conforme a tus valores incluso cuando nadie está mirando.'
+    },
+    proactividad: {
+      img: 'Images/proactividad.png',
+      text: 'Este escudo proyecta la Proactividad: tomar la iniciativa y convertir el miedo en acción constructiva.'
+    }
+  };
 
-                <div class="form-group">
-                    <label for="cualidad">¿Qué cualidad te define mejor en momentos de desafío?</label>
-                    <select id="cualidad" name="cualidad" required>
-                        <option value="">Selecciona una opción</option>
-                        <option value="Empatia">Empatía</option>
-                        <option value="Resiliencia">Resiliencia</option>
-                        <option value="Integridad">Integridad</option>
-                        <option value="Proactividad">Proactividad</option>
-                    </select>
-                </div>
+  document.getElementById('generateBtn').addEventListener('click', () => {
+    const quality = document.getElementById('q2').value;
+    if (!quality) {
+      alert('Selecciona la cualidad que mejor te define.');
+      return;
+    }
+    const data = shields[quality];
+    const div = document.getElementById('shieldDisplay');
+    div.innerHTML = `<img src="${data.img}" alt="Escudo ${quality}"><p>${data.text}</p>`;
+    div.scrollIntoView({ behavior: 'smooth' });
+  });
 
-                <div class="form-group">
-                    <label for="pregunta3">¿Qué te ayuda cuando sientes miedo?</label>
-                    <textarea id="pregunta3" name="pregunta3" rows="3" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="frase">Escribe una frase que te dé fuerza antes de hablar:</label>
-                    <textarea id="frase" name="frase" rows="3" required></textarea>
-                </div>
-
-                <button type="button" id="generar-escudo-btn">Generar Escudo de Valor</button>
-            </form>
-
-            <div id="escudo-resultado" class="escudo-resultado" style="display: none;">
-                <h3>Tu Escudo de Valor es:</h3>
-                <div class="escudo-imagen-container">
-                    <img id="escudo-empatia" class="escudo-img hidden" src="Images/empatia.png" alt="Escudo de Empatía">
-                    <img id="escudo-resiliencia" class="escudo-img hidden" src="Images/resiliencia.png" alt="Escudo de Resiliencia">
-                    <img id="escudo-integridad" class="escudo-img hidden" src="Images/integridad.png" alt="Escudo de Integridad">
-                    <img id="escudo-proactividad" class="escudo-img hidden" src="Images/proactividad.png" alt="Escudo de Proactividad">
-                </div>
-                <p id="escudo-explicacion"></p>
-            </div>
-        </section>
-
-        <section id="chat-section" class="container">
-            <h2>Conecta con Tu Psicólogo IA</h2>
-            <p>Bienvenido a tu espacio seguro. Aquí podrás hablar con un psicólogo de IA que te brindará apoyo y te ayudará a explorar tus pensamientos y emociones. Siéntete libre de compartir lo que necesites.</p>
-            <div class="chat-container">
-                <div id="chat-messages" class="chat-messages"></div>
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Escribe tu mensaje...">
-                    <button id="send-chat-btn">Enviar</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Escudo Interior. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  const sessionId = localStorage.getItem('valorvisor-session') || crypto.randomUUID();
+  localStorage.setItem('valorvisor-session', sessionId);
+  const chatWindow = document.getElementById('chatWindow');
+  const addMessage = (text, cls) => {
+    const bubble = document.createElement('div');
+    bubble.className = 'msg ' + cls;
+    bubble.textContent = text;
+    chatWindow.appendChild(bubble);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  };
+  document.getElementById('sendBtn').addEventListener('click', async () => {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    addMessage(msg, 'user');
+    input.value = '';
+    addMessage('...', 'bot');
+    try {
+      const res = await fetch('https://YOUR_N8N_DOMAIN/webhook/ai-psychologist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, message: msg })
+      });
+      const { reply } = await res.json();
+      chatWindow.lastChild.remove();
+      addMessage(reply, 'bot');
+    } catch (e) {
+      chatWindow.lastChild.remove();
+      addMessage('Lo siento, ocurrió un error. Intenta de nuevo.', 'bot');
+    }
+  });
+</script>
 </body>
 </html>
