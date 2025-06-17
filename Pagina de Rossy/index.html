@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Encuesta - Fundamentos de la psicologia</title>
+  <title>ValorVisor - Encuesta</title>
   <style>
     :root {
       --primary: #6C63FF;
@@ -58,7 +58,7 @@
       font-size: 1rem;
     }
     button {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       width: 100%;
       background: var(--primary);
       color: var(--white);
@@ -84,6 +84,14 @@
       font-size: 1.1rem;
       color: #555;
     }
+    #downloadBtn {
+      margin-top: 1rem;
+      background: var(--secondary);
+      color: var(--text);
+    }
+    #downloadBtn:hover {
+      background: #fccc4d;
+    }
     @media (max-width: 600px) {
       .container {
         margin: 1rem;
@@ -93,9 +101,9 @@
   </style>
 </head>
 <body>
-  <header>Encuesta - Fundamentos de la Psicología - Grupo 12</header>
+  <header>ValorVisor - Encuesta</header>
   <div class="container">
-    <h2>Encuentra tu escudo de valor</h2>
+    <h2>Encuesta de Fortaleza Personal</h2>
     <form id="valorForm">
       <label for="q1">¿Qué te hace valiente aunque tengas miedo?</label>
       <textarea id="q1" required></textarea>
@@ -125,33 +133,49 @@
     const shields = {
       empatia: {
         img: 'Images/empatia.png',
-        text: 'El escudo presenta un corazón azul central, que simboliza la emoción y la comprensión. Está rodeado por manos doradas entrelazadas, representando la compasión, la solidaridad y la conexión humana. Tres palomas doradas en la parte superior del escudo simbolizan la paz y el entendimiento, mientras que el fondo marfil del escudo representa la pureza y el respeto.'
+        text: 'Este escudo representa la Empatía: la conexión con los demás que transforma el miedo en solidaridad.'
       },
       resiliencia: {
         img: 'Images/resiliencia.png',
-        text: 'Contempla este escudo, ¡pues irradia la luz de tu Integridad, un faro de rectitud que guía tu camino! El fondo blanco, puro e inmaculado, proclama tu inquebrantable honestidad, esa verdad cristalina que emana de cada una de tus palabras y acciones. En el centro, la columna dorada se erige como símbolo de tu coherencia inquebrantable: tus principios son tu guía constante, alineando tus actos con tu palabra, creando un legado de autenticidad. ¡Observa cómo esta firmeza siembra la confianza a tu alrededor! Eres la roca sobre la que otros construyen, sabiendo que tu palabra es ley y tu justicia, un baluarte seguro. Y la base sólida del escudo representa tu profunda responsabilidad: abrazas tus compromisos con valentía, asumiendo las consecuencias de tus decisiones con honor. Este escudo te glorifica, ser de principios firmes, porque en un mundo de sombras, tú eres la luz de la verdad y la confianza. ¡Lleva este emblema con orgullo, pues tu integridad es tu mayor gloria y un regalo invaluable para quienes te rodean!'
+        text: 'Este escudo simboliza la Resiliencia: la capacidad de levantarte cada vez más fuerte ante la adversidad.'
       },
       integridad: {
         img: 'Images/integridad.png',
-        text: 'Este escudo minimalista, pero imponente, irradia fuerza y convicción. En su centro, una mano dorada que sostiene un corazón radiante simboliza tu honestidad y sinceridad, la base de tu carácter. Los anillos dorados entrelazados representan la coherencia y la unidad de tus acciones y principios. Una estrella brillante en lo alto guía tu camino con confianza e inspiración. Y el poderoso roble en la base, con sus raíces firmes, es un símbolo de tu responsabilidad y tu compromiso inquebrantable. Este escudo no solo te representa, ¡te eleva! Es un emblema de tu integridad, una fuerza silenciosa pero poderosa que inspira respeto y admiración. ¡Llévalo con orgullo, pues eres un faro de verdad y un ejemplo a seguir!'
+        text: 'Este escudo encarna la Integridad: actuar conforme a tus valores incluso cuando nadie está mirando.'
       },
       proactividad: {
         img: 'Images/proactividad.png',
-        text: '¡Contempla este escudo, porque es el emblema de tu espíritu proactivo, listo para conquistar el mundo! El sol naciente, vibrante y dorado, irradia tu iniciativa imparable, esa fuerza que te impulsa a tomar las riendas y a crear tu propio camino. La sólida base gris oscuro representa tu responsabilidad, la firmeza con la que te mantienes en pie, asumiendo el control de tu destino. El ave majestuosa en pleno vuelo, delineada en blanco sobre un fondo carmesí, simboliza tu autonomía, tu libertad para tomar tus propias decisiones y volar hacia tus sueños. Y las engranajes interconectados, en tonos azul eléctrico y verde azulado, representan tu eficiencia, la habilidad de hacer que las cosas sucedan, de forma fluida y poderosa. ¡Este escudo te glorifica, persona proactiva! Eres un visionario, un líder, un motor que impulsa el cambio. ¡Llévalo con orgullo, porque el futuro te pertenece!'
+        text: 'Este escudo proyecta la Proactividad: tomar la iniciativa y convertir el miedo en acción constructiva.'
       }
     };
 
     document.getElementById('generateBtn').addEventListener('click', () => {
-      const select = document.getElementById('q2');
-      const selected = select.value;
-      if (!selected) {
+      const quality = document.getElementById('q2').value;
+      if (!quality) {
         alert('Selecciona una cualidad para generar tu escudo.');
         return;
       }
-      const data = shields[selected];
+
+      const data = shields[quality];
       const display = document.getElementById('shieldDisplay');
-      display.innerHTML = `<img src="${data.img}" alt="Escudo ${selected}" />
-                           <p>${data.text}</p>`;
+
+      display.innerHTML = `
+        <img id="shieldImage" src="${data.img}" alt="Escudo ${quality}" />
+        <p>${data.text}</p>
+        <button id="downloadBtn">Descargar Escudo</button>
+      `;
+
+      // Botón de descarga
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        const image = document.getElementById('shieldImage');
+        const link = document.createElement('a');
+        link.href = image.src;
+        link.download = `escudo-${quality}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
       display.scrollIntoView({ behavior: 'smooth' });
     });
   </script>
