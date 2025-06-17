@@ -112,11 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mapeo de símbolos a URLs de imágenes (EJEMPLOS: ¡ACTUALIZA ESTO CON TUS IMÁGENES REALES!)
     const symbolImages = {
-        'empatia': 'Images/Escudo_de_empatia.png', // Ejemplo: asume que tienes una carpeta 'images'
-        'resiliencia': 'Images/resiliencia.png',
-        'integridad': 'Images/integridad.png',
-        'proactividad': 'Images/proactividad.png',
-        'escudo_vacio': 'Images/escudo_vacio.png'
+        'empatia': 'images/empatia.png', // Ejemplo: asume que tienes una carpeta 'images'
+        'resiliencia': 'images/resiliencia.png',
+        'integridad': 'images/integridad.png',
+        'proactividad': 'images/proactividad.png',
         // Puedes añadir más aquí
     };
 
@@ -126,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'resiliencia': 'Este escudo no es una simple imagen, ¡es el glorioso emblema de tu espíritu indomable! En el azul profundo de este escudo reside tu serenidad inquebrantable ante la tormenta, la calma que te permite mantener la visión clara cuando otros se tambalean. Y observa el halcón dorado, ¡majestuoso símbolo de tu perseverancia! Sus alas extendidas no conocen el cansancio, siempre dispuestas a elevarte por encima de cualquier obstáculo. Su mirada aguda y penetrante refleja tu determinación inquebrantable, esa fuerza interior que te impulsa a alcanzar tus metas con una firmeza admirable. Aunque el cielo se oscurezca, llevas contigo el optimismo radiante del oro, la certeza de que siempre encontrarás una luz al final del camino. Y en cada fibra de este escudo reside tu fortaleza, no solo la capacidad de resistir, sino el poder de levantarte una y otra vez, más fuerte y más sabio. ¡Este escudo te glorifica, campeón! Llévalo con orgullo, pues eres la encarnación de la resiliencia, un faro de esperanza e inspiración para quienes te rodean. ¡Nada podrá detener el vuelo de un espíritu tan magnífico como el tuyo!',
         'integridad': 'Este escudo minimalista, pero imponente, irradia fuerza y convicción. En su centro, una mano dorada que sostiene un corazón radiante simboliza tu honestidad y sinceridad, la base de tu carácter. Los anillos dorados entrelazados representan la coherencia y la unidad de tus acciones y principios. Una estrella brillante en lo alto guía tu camino con confianza e inspiración. Y el poderoso roble en la base, con sus raíces firmes, es un símbolo de tu responsabilidad y tu compromiso inquebrantable. Este escudo no solo te representa, ¡te eleva! Es un emblema de tu integridad, una fuerza silenciosa pero poderosa que inspira respeto y admiración. ¡Llévalo con orgullo, pues eres un faro de verdad y un ejemplo a seguir!',
         'proactividad': '¡Contempla este escudo, porque es el emblema de tu espíritu proactivo, listo para conquistar el mundo! El sol naciente, vibrante y dorado, irradia tu iniciativa imparable, esa fuerza que te impulsa a tomar las riendas y a crear tu propio camino. La sólida base gris oscuro representa tu responsabilidad, la firmeza con la que te mantienes en pie, asumiendo el control de tu destino. El ave majestuosa en pleno vuelo, delineada en blanco sobre un fondo carmesí, simboliza tu autonomía, tu libertad para tomar tus propias decisiones y volar hacia tus sueños. Y las engranajes interconectados, en tonos azul eléctrico y verde azulado, representan tu eficiencia, la habilidad de hacer que las cosas sucedan, de forma fluida y poderosa. ¡Este escudo te glorifica, persona proactiva! Eres un visionario, un líder, un motor que impulsa el cambio. ¡Llévalo con orgullo, porque el futuro te pertenece!',
-        'escudo_vacio': 'Un escudo vacío representa el potencial ilimitado y la protección de tu espacio. Es un lienzo para que sigas definiendo tu valor.'
     };
 
     valorShieldForm.addEventListener('submit', async (e) => {
