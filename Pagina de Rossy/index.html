@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Psicólogo AI - Apoyo y Bienestar</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">Tu Psicólogo AI</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#ai-chat" class="nav-link active" data-tab="ai-chat">Psicólogo AI</a></li>
+                    <li><a href="#valor-shield" class="nav-link" data-tab="valor-shield">Tu Escudo de Valor</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="ai-chat" class="tab-content active">
+            <div class="chat-container">
+                <div class="chat-box" id="chat-box">
+                    <div class="message bot-message initial-message">
+                        Hola, soy tu psicólogo AI. Estoy aquí para escucharte y apoyarte. ¿Cómo te sientes hoy?
+                    </div>
+                </div>
+                <form id="chat-form" class="chat-input-form">
+                    <input type="text" id="user-input" placeholder="Escribe tu mensaje aquí..." required>
+                    <button type="submit" class="send-button">
+                        <i class="fas fa-paper-plane"></i> </button>
+                </form>
+            </div>
+        </section>
+
+        <section id="valor-shield" class="tab-content">
+            <div class="shield-form-container">
+                <h2>Crea Tu Escudo de Valor Personal</h2>
+                <p class="section-description">Responde estas preguntas para descubrir tu escudo personal y su significado. Es un reflejo de tus fortalezas internas.</p>
+
+                <form id="valor-shield-form-new">
+                    <div class="form-group">
+                        <label for="q1">¿Qué te hace valiente aunque tengas miedo?</label>
+                        <input type="text" id="q1" name="q1" required class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="q2">¿Qué cualidad te define mejor en momentos de desafío?</label>
+                        <select id="q2" name="q2" required class="input-field">
+                            <option value="empatia">Empatia</option>
+                            <option value="resiliencia">Resiliencia</option>
+                            <option value="integridad">Integridad</option>
+                            <option value="proactividad">Proactividad</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="q3">¿Qué te ayuda cuando sientes miedo?</label>
+                        <input type="text" id="q3" name="q3" required class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="q4">Escribe una frase que te dé fuerza antes de hablar</label>
+                        <input type="text" id="q4" name="q4" required class="input-field">
+                    </div>
+
+                    <button type="submit" class="submit-button">Generar Escudo</button>
+                </form>
+
+                <div id="shield-result" class="shield-result-section" style="display: none;">
+                    <h3>Tu Escudo de Valor:</h3>
+                    <div id="shield-image-container" class="shield-image-wrapper">
+                        </div>
+                    <p id="shield-meaning-text" class="shield-meaning-output"></p>
+
+                    <div class="shield-actions">
+                        <a id="download-shield" href="#" download="mi-escudo-de-valor.png" style="display: none;" class="button secondary-button">Descargar Escudo</a>
+                        <button id="print-shield" style="display: none;" class="button secondary-button">Imprimir Escudo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Tu Psicólogo AI. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
