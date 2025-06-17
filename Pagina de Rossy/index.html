@@ -252,7 +252,7 @@
     input.value = '';
     addMessage('...', 'bot');
     try {
-      const res = await fetch('https://YOUR_N8N_DOMAIN/webhook/ai-psychologist', {
+      const res = await fetch('https://johaoramirez.app.n8n.cloud/webhook-test/4edf8d8d-d549-4218-bf5b-ec3bdba1ef9e', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId, message: msg })
