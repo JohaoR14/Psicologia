@@ -123,13 +123,26 @@ button:hover {
     background-color: var(--accent-color);
 }
 
-.escudo-resultado img {
+/* Contenedor para las imágenes del escudo */
+.escudo-imagen-container {
+    height: 200px; /* Altura fija para que no salte el contenido al mostrar la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
+}
+
+.escudo-img {
     max-width: 180px; /* Ajuste para el tamaño de las imágenes */
     height: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Clase para ocultar elementos */
+.hidden {
+    display: none;
 }
 
 .escudo-resultado p {
