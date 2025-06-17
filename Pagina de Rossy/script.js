@@ -112,11 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mapeo de símbolos a URLs de imágenes (EJEMPLOS: ¡ACTUALIZA ESTO CON TUS IMÁGENES REALES!)
     const symbolImages = {
-        'empatia': 'images/Escudo de empatia.png', // Ejemplo: asume que tienes una carpeta 'images'
-        'resiliencia': 'images/resiliencia.png',
-        'integridad': 'images/integridad.png',
-        'proactividad': 'images/proactividad.png',
-        'escudo_vacio': 'images/escudo_vacio.png'
+        'empatia': 'Images/Escudo_de_empatia.png', // Ejemplo: asume que tienes una carpeta 'images'
+        'resiliencia': 'Images/resiliencia.png',
+        'integridad': 'Images/integridad.png',
+        'proactividad': 'Images/proactividad.png',
+        'escudo_vacio': 'Images/escudo_vacio.png'
         // Puedes añadir más aquí
     };
 
