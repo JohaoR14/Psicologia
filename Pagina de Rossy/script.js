@@ -8,19 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mapeo de cualidades a imágenes y explicaciones
     const escudos = {
         "Empatia": {
-            imagen: "empatia.jpg",
+            imagen: "empatia.png",
             explicacion: "El Escudo de la Empatía representa tu profunda capacidad para entender y compartir los sentimientos de los demás. Con un corazón abierto y manos entrelazadas, simbolizas la conexión humana y el apoyo mutuo. Las palomas que se elevan sobre el corazón azul simbolizan la paz y la comprensión que emanan de tu habilidad para ponerte en el lugar del otro. Tu valor reside en tu compasión y en la fuerza que encuentras al conectar con el mundo a través del corazón."
         },
         "Resiliencia": {
-            imagen: "resiliencia.jpg",
+            imagen: "resiliencia.png",
             explicacion: "El Escudo de la Resiliencia, con su majestuoso halcón de alas extendidas, simboliza tu increíble capacidad para sobreponerte a la adversidad. Al igual que el halcón se eleva por encima de las tormentas, tú encuentras la fuerza para recuperarte, adaptarte y crecer frente a los desafíos. Este escudo representa tu espíritu indomable y tu habilidad para transformar los obstáculos en oportunidades de vuelo y fortaleza. Tu valor reside en tu tenacidad y en tu innata capacidad para renacer de cada prueba."
         },
         "Integridad": {
-            imagen: "integridad.jpg",
+            imagen: "integridad.png",
             explicacion: "El Escudo de la Integridad destaca por un corazón en la mano, entrelazado con anillos que simbolizan la unión y el compromiso, y un árbol fuerte y enraizado en la base. Esto refleja tu compromiso inquebrantable con tus principios, valores y honestidad. Al igual que el árbol se mantiene firme, tú te mantienes fiel a ti mismo y a tus convicciones, inspirando confianza y respeto en los demás. Tu valor radica en tu transparencia, tu rectitud moral y en la coherencia entre lo que dices y haces."
         },
         "Proactividad": {
-            imagen: "proactividad.jpg",
+            imagen: "proactividad.png",
             explicacion: "El Escudo de la Proactividad, con sus engranajes en movimiento bajo un sol naciente y un ave que emprende el vuelo, simboliza tu iniciativa y tu capacidad para tomar el control de tu destino. Representa tu habilidad para anticipar desafíos, innovar y actuar antes de que las circunstancias te superen. Los engranajes denotan el trabajo en equipo y la eficiencia, mientras que el ave libre ilustra tu visión de futuro y tu impulso para generar cambios positivos. Tu valor reside en tu espíritu emprendedor y en tu habilidad para transformar las ideas en acción."
         }
     };
